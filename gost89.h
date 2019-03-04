@@ -59,6 +59,8 @@ void gostcrypt(gost_ctx * c, const byte * in, byte * out);
 void gostdecrypt(gost_ctx * c, const byte * in, byte * out);
 /* Set key into context */
 void gost_key(gost_ctx * ctx, const byte * key);
+/* Set key into context */
+void magma_key(gost_ctx * ctx, const byte * key);
 /* Get key from context */
 void gost_get_key(gost_ctx * ctx, byte * key);
 /* Set S-blocks into context */
@@ -95,5 +97,8 @@ extern gost_subst_block Gost28147_CryptoProParamSetD;
 extern gost_subst_block Gost28147_TC26ParamSetZ;
 extern const byte CryptoProKeyMeshingKey[];
 typedef unsigned int word32;
-
+/* For tests. */
+void kboxinit(gost_ctx * c, const gost_subst_block * b);
+void magma_get_key(gost_ctx * c, byte * k);
+void acpkm_magma_key_meshing(gost_ctx * ctx);
 #endif
