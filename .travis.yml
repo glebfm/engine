@@ -2,6 +2,7 @@ sudo: required
 dist: trusty
 
 os: linux
+compiler: gcc
 
 language: c
 
@@ -18,26 +19,24 @@ env:
 
 matrix:
   include:
-    - env: OPENSSL_BRANCH=master
-      os: linux
-      compiler: gcc
     - env:
-      - OPENSSL_BRANCH=master
+      - OPENSSL_BRANCH=OpenSSL_1_1_1-stable
+    - env:
+      - OPENSSL_BRANCH=OpenSSL_1_1_1-stable
       - ASAN=-DASAN=1
-      os: linux
-      compiler: gcc
-#    - env: OPENSSL_BRANCH=OpenSSL_1_1_0-stable
-#      os: linux
-#      compiler: gcc
-#    - env: OPENSSL_BRANCH=OpenSSL_1_0_2-stable
-#      os: linux
-#      compiler: gcc
+    - env:
+      - OPENSSL_BRANCH=OpenSSL_1_1_0-stable
+    - env:
+      - OPENSSL_BRANCH=OpenSSL_1_1_0-stable
+      - ASAN=-DASAN=1
+
 
 before_script:
   - sudo cpanm --notest Test2::V0 > build.log 2>&1 || (cat build.log && exit 1)
   - git clone --depth 1 -b ${OPENSSL_BRANCH} https://github.com/openssl/openssl.git
   - cd openssl
-  - ./config shared -d --prefix=${PREFIX} --openssldir=${PREFIX} && make -j$(nproc) all && make install_sw > build.log 2>&1 || (cat build.log && exit 1)
+  - if [ "$OPENSSL_BRANCH" = OpenSSL_1_1_0-stable ]; then for patch in ../patches/1.1.0/*.patch; do patch -p1 < "$patch"; done; fi
+  - ./config shared -d --prefix=${PREFIX} --openssldir=${PREFIX} && make generate_crypto_objects && make -j$(nproc) all && make install_sw > build.log 2>&1 || (cat build.log && exit 1)
   - cd ..
 
 script:
