@@ -1,0 +1,83 @@
+--- a/crypto/objects/obj_mac.num
++++ b/crypto/objects/obj_mac.num
+@@ -1058,3 +1058,26 @@ blake2s256		1057
+ id_smime_ct_contentCollection		1058
+ id_smime_ct_authEnvelopedData		1059
+ id_ct_xml		1060
++id_tc26_cipher_gostr3412_2015_magma		1173
++id_tc26_cipher_gostr3412_2015_magma_ctracpkm		1174
++id_tc26_cipher_gostr3412_2015_magma_ctracpkm_omac		1175
++id_tc26_cipher_gostr3412_2015_kuznyechik		1176
++id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm		1177
++id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm_omac		1178
++id_tc26_wrap		1179
++id_tc26_wrap_gostr3412_2015_magma		1180
++id_tc26_wrap_gostr3412_2015_magma_kexp15		1181
++id_tc26_wrap_gostr3412_2015_kuznyechik		1182
++id_tc26_wrap_gostr3412_2015_kuznyechik_kexp15		1183
++id_tc26_gost_3410_2012_256_paramSetB		1184
++id_tc26_gost_3410_2012_256_paramSetC		1185
++id_tc26_gost_3410_2012_256_paramSetD		1186
++magma_ecb		1187
++magma_ctr		1188
++magma_ofb		1189
++magma_cbc		1190
++magma_cfb		1191
++magma_mac		1192
++id_tc26_gost_3410_2012_256_constants		1193
++id_tc26_gost_3410_2012_256_paramSetA		1194
++id_tc26_gost_3410_2012_512_paramSetC		1195
+--- a/crypto/objects/objects.txt
++++ b/crypto/objects/objects.txt
+@@ -1278,18 +1278,36 @@ id-tc26-mac 1		: id-tc26-hmac-gost-3411-2012-256 : HMAC GOST 34.11-2012 256 bit
+ id-tc26-mac 2		: id-tc26-hmac-gost-3411-2012-512 : HMAC GOST 34.11-2012 512 bit
+ 
+ id-tc26-algorithms 5	: id-tc26-cipher
++id-tc26-cipher 1	:  id-tc26-cipher-gostr3412-2015-magma
++id-tc26-cipher-gostr3412-2015-magma 1	: id-tc26-cipher-gostr3412-2015-magma-ctracpkm
++id-tc26-cipher-gostr3412-2015-magma 2	: id-tc26-cipher-gostr3412-2015-magma-ctracpkm-omac
++id-tc26-cipher 2	:  id-tc26-cipher-gostr3412-2015-kuznyechik
++id-tc26-cipher-gostr3412-2015-kuznyechik 1	: id-tc26-cipher-gostr3412-2015-kuznyechik-ctracpkm
++id-tc26-cipher-gostr3412-2015-kuznyechik 2	: id-tc26-cipher-gostr3412-2015-kuznyechik-ctracpkm-omac
+ 
+ id-tc26-algorithms 6	: id-tc26-agreement
+ id-tc26-agreement 1	: id-tc26-agreement-gost-3410-2012-256
+ id-tc26-agreement 2	: id-tc26-agreement-gost-3410-2012-512
+ 
++id-tc26-algorithms 7	:	id-tc26-wrap
++id-tc26-wrap 1	: id-tc26-wrap-gostr3412-2015-magma
++id-tc26-wrap-gostr3412-2015-magma 1	: id-tc26-wrap-gostr3412-2015-magma-kexp15
++id-tc26-wrap 2	: id-tc26-wrap-gostr3412-2015-kuznyechik
++id-tc26-wrap-gostr3412-2015-magma 1	: id-tc26-wrap-gostr3412-2015-kuznyechik-kexp15
++
+ id-tc26 2 		: id-tc26-constants
+ 
+ id-tc26-constants 1	: id-tc26-sign-constants
++id-tc26-sign-constants 1: id-tc26-gost-3410-2012-256-constants
++id-tc26-gost-3410-2012-256-constants 1	: id-tc26-gost-3410-2012-256-paramSetA: GOST R 34.10-2012 (256 bit) ParamSet A
++id-tc26-gost-3410-2012-256-constants 2	: id-tc26-gost-3410-2012-256-paramSetB: GOST R 34.10-2012 (256 bit) ParamSet B
++id-tc26-gost-3410-2012-256-constants 3	: id-tc26-gost-3410-2012-256-paramSetC: GOST R 34.10-2012 (256 bit) ParamSet C
++id-tc26-gost-3410-2012-256-constants 4	: id-tc26-gost-3410-2012-256-paramSetD: GOST R 34.10-2012 (256 bit) ParamSet D
+ id-tc26-sign-constants 2: id-tc26-gost-3410-2012-512-constants
+ id-tc26-gost-3410-2012-512-constants 0	: id-tc26-gost-3410-2012-512-paramSetTest: GOST R 34.10-2012 (512 bit) testing parameter set
+ id-tc26-gost-3410-2012-512-constants 1	: id-tc26-gost-3410-2012-512-paramSetA: GOST R 34.10-2012 (512 bit) ParamSet A
+ id-tc26-gost-3410-2012-512-constants 2	: id-tc26-gost-3410-2012-512-paramSetB: GOST R 34.10-2012 (512 bit) ParamSet B
++id-tc26-gost-3410-2012-512-constants 3	: id-tc26-gost-3410-2012-512-paramSetC: GOST R 34.10-2012 (512 bit) ParamSet C
+ 
+ id-tc26-constants 2     : id-tc26-digest-constants
+ id-tc26-constants 5     : id-tc26-cipher-constants
+@@ -1310,6 +1328,14 @@ member-body 643 100 112	: issuerSignTool	: Signing Tool of Issuer
+ 			: grasshopper-cfb
+ 			: grasshopper-mac
+ 
++#GOST R34.13-2015 Magma
++			: magma-ecb
++			: magma-ctr
++			: magma-ofb
++			: magma-cbc
++			: magma-cfb
++			: magma-mac
++
+ # Definitions for Camellia cipher - CBC MODE
+ 
+ 1 2 392 200011 61 1 1 1 2 : CAMELLIA-128-CBC		: camellia-128-cbc
