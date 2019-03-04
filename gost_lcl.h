@@ -17,6 +17,13 @@
 # include <openssl/ec.h>
 # include "gost89.h"
 # include "gosthash.h"
+
+# if OPENSSL_VERSION_NUMBER < 0x10101000L
+#  define EC_GROUP_get_curve EC_GROUP_get_curve_GFp
+#  define EC_POINT_get_affine_coordinates EC_POINT_get_affine_coordinates_GFp
+#  define EC_POINT_set_affine_coordinates EC_POINT_set_affine_coordinates_GFp
+# endif
+
 /* Control commands */
 # define GOST_PARAM_CRYPT_PARAMS 0
 # define GOST_PARAM_PBE_PARAMS 1

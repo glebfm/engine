@@ -1077,8 +1077,13 @@ static int test_param(struct test_param *t)
 	const EVP_MD *mdtype;
 	T(mdtype = EVP_get_digestbynid(hash_nid));
 	T(EVP_DigestVerifyInit(md_ctx, NULL, mdtype, NULL, pkey));
+#if OPENSSL_VERSION_NUMBER < 0x10101000L
+	T(EVP_DigestVerifyUpdate(md_ctx, t->data, t->data_len));
+	err = EVP_DigestVerifyFinal(md_ctx, sig, siglen);
+#else
 	/* Verify in one step. */
 	err = EVP_DigestVerify(md_ctx, sig, siglen, t->data, t->data_len);
+#endif
 	print_test_result(err);
 	EVP_MD_CTX_free(md_ctx);
 	ret |= err != 1;
